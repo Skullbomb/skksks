@@ -1,121 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flower Gift</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ffe4e1, #e0f7fa, #fce4ec);
-      background-size: 400% 400%;
-      animation: gradientBG 10s ease infinite;
-      font-family: 'Comic Sans MS', 'Segoe UI', cursive;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flower Bouquet with Animated Pink Background</title>
+<style>
+  @keyframes pinkFade {
+    0% { background-color: #fff0f5; }
+    25% { background-color: #f8c8dc; }
+    50% { background-color: #f9bad1; }
+    75% { background-color: #f7b3d0; }
+    100% { background-color: #fff0f5; }
+  }
 
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
+  body {
+    animation: pinkFade 20s ease-in-out infinite;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    gap: 20px;
+    padding: 40px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+  .box {
+    background: #f8d7e4;
+    border-radius: 20px;
+    padding: 30px;
+    width: 360px;
+    text-align: center;
+    box-shadow: 0 0 10px #c18f9e;
+    user-select: none;
+  }
+  #promptBox {
+    cursor: pointer;
+    font-size: 1.3rem;
+    padding: 20px;
+    background: #f9c7d5;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px #e3a2b7;
+    transition: background-color 0.3s ease;
+  }
+  #promptBox:active {
+    background-color: #e8a2b0;
+  }
+  #bouquetBox {
+    position: relative;
+    width: 360px;
+    height: 360px;
+    margin-top: 20px;
+    background: #fff0f5;
+    border-radius: 50%;
+    box-shadow: 0 0 20px #eeb9cd;
+    overflow: visible;
+  }
+  .flower {
+    position: absolute;
+    font-size: 2.4rem;
+    user-select: none;
+    transition: transform 0.3s ease;
+  }
 
-    .container {
-      display: flex;
-      gap: 40px;
-      align-items: flex-start;
-    }
+  /* Flower rain animation */
+  .rain-flower {
+    position: fixed;
+    font-size: 1.8rem;
+    pointer-events: none;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-duration: 4s;
+    will-change: transform, opacity;
+    opacity: 0.85;
+    z-index: 10000;
+  }
 
-    .flower-box, .bouquet-box {
-      background: #fff0f5;
-      padding: 30px;
-      border-radius: 30px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      font-size: 1.5rem;
-      text-align: center;
-      color: #d63384;
-      min-width: 280px;
-      transition: transform 0.2s ease;
+  @keyframes fall {
+    0% {
+      transform: translateY(-50px) rotate(0deg);
+      opacity: 1;
     }
-
-    .flower-box {
-      cursor: pointer;
-    }
-
-    .flower-box:hover {
-      transform: scale(1.05);
-    }
-
-    .floating-flower {
-      position: absolute;
-      font-size: 2rem;
-      animation: floatUp 2s ease-out forwards;
-      pointer-events: none;
-    }
-
-    @keyframes floatUp {
-      0% {opacity: 1; transform: translateY(0);}
-      100% {opacity: 0; transform: translateY(-100px) rotate(360deg);}
-    }
-
-    .bouquet-box {
+    100% {
+      transform: translateY(110vh) rotate(360deg);
       opacity: 0;
-      animation: fadeIn 1s ease forwards;
-      white-space: pre-line;
     }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="flower-box" onclick="giveFlowers()">
-      here are your flowers for today shawtyy
-    </div>
+<div class="box" id="promptBox">here are your flowers for today shawtyy 💐 (click me!)</div>
+<div class="box" id="bouquetBox"></div>
 
-    <div id="bouquet" class="bouquet-box"></div>
-  </div>
+<script>
+// Expanded flower emoji pool for lush bouquet:
+const flowers = [
+  '🌹', '🌻', '🌼', '🌸', '🌺', '🥀', '🌷', '💐', '🌾', '🌿',
+  '🍃', '🍂', '🌵', '🌴', '🥭', '🍁', '🍀', '🌱', '🌲', '🌳',
+  '💮', '🪻', '🌷', '🌻', '🌼', '🌸', '🌹', '🌺', '🌻', '💮',
+  '🌼', '💐', '🌹', '🌸', '🌿', '🍃', '🌼', '🌻', '🌸', '🌺',
+  '🌹', '🌷', '💐', '🌾', '🌿', '🍁', '🌵', '🍀', '🌱', '🌼',
+  '🌹', '🌺', '🌻', '🌸', '💐', '🌷', '🌼', '🌿', '🌾', '🌻'
+];
 
-  <script>
-    const flowers = ["🌸", "🌼", "🌺", "🌹", "🌻", "💐", "🪻", "🌷", "🪷"];
-    
-    function giveFlowers() {
-      // Floating flower animation
-      for (let i = 0; i < 10; i++) {
-        const flower = document.createElement('div');
-        flower.className = 'floating-flower';
-        flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
-        flower.style.left = Math.random() * 100 + 'vw';
-        flower.style.top = Math.random() * 100 + 'vh';
-        document.body.appendChild(flower);
-        setTimeout(() => flower.remove(), 2000);
-      }
+const promptBox = document.getElementById('promptBox');
+const bouquetBox = document.getElementById('bouquetBox');
 
-      // Emoji bouquet shape
-      const bouquet = `
-         ${rand()} ${rand()} ${rand()}
-       ${rand()} ${rand()} ${rand()} ${rand()}
-         ${rand()} ${rand()} ${rand()}
-            💐
-      `;
-      const bouquetBox = document.getElementById('bouquet');
-      bouquetBox.innerText = bouquet;
-      bouquetBox.style.animation = "none"; // reset animation
-      bouquetBox.offsetHeight; // trigger reflow
-      bouquetBox.style.animation = null;  // restart animation
+// Create dense bouquet with 4 layers for clarity & fullness
+function createBouquet() {
+  bouquetBox.innerHTML = ''; // clear
+
+  // random count between 25 and 40 flowers
+  const count = Math.floor(Math.random() * 16) + 25;
+
+  // pick flowers randomly (allow duplicates)
+  const chosen = Array.from({ length: count }, () => flowers[Math.floor(Math.random() * flowers.length)]);
+
+  const centerX = bouquetBox.clientWidth / 2;
+  const centerY = bouquetBox.clientHeight / 2;
+
+  // center flower bigger
+  const centerFlower = document.createElement('div');
+  centerFlower.textContent = chosen[0];
+  centerFlower.className = 'flower';
+  centerFlower.style.left = centerX + 'px';
+  centerFlower.style.top = centerY + 'px';
+  centerFlower.style.transform = 'translate(-50%, -50%) scale(2)';
+  bouquetBox.appendChild(centerFlower);
+
+  let placed = 1;
+  // More layers, with increasing radius and flower counts for detail:
+  const layers = [
+    { radius: 55, count: 8 },
+    { radius: 90, count: 12 },
+    { radius: 125, count: 14 },
+    { radius: 155, count: 18 },
+  ];
+
+  layers.forEach(({ radius, count: layerCount }) => {
+    for(let i = 0; i < layerCount && placed < chosen.length; i++, placed++) {
+      const angle = (2 * Math.PI / layerCount) * i - Math.PI / 2;
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+
+      const petal = document.createElement('div');
+      petal.textContent = chosen[placed];
+      petal.className = 'flower';
+      petal.style.left = x + 'px';
+      petal.style.top = y + 'px';
+      petal.style.transform = 'translate(-50%, -50%)';
+      bouquetBox.appendChild(petal);
     }
+  });
+}
 
-    function rand() {
-      return flowers[Math.floor(Math.random() * flowers.length)];
-    }
-  </script>
+// Flower rain celebration effect
+function rainFlowers() {
+  const rainCount = 30;
+  for(let i = 0; i < rainCount; i++) {
+    const emoji = flowers[Math.floor(Math.random() * flowers.length)];
+    const flake = document.createElement('div');
+    flake.textContent = emoji;
+    flake.className = 'rain-flower';
+
+    flake.style.left = Math.random() * window.innerWidth + 'px';
+    flake.style.top = '-30px';
+    flake.style.fontSize = (14 + Math.random() * 18) + 'px';
+    flake.style.animationDuration = (3 + Math.random() * 2) + 's';
+
+    document.body.appendChild(flake);
+
+    flake.addEventListener('animationend', () => {
+      flake.remove();
+    });
+  }
+}
+
+promptBox.addEventListener('click', () => {
+  createBouquet();
+  rainFlowers();
+});
+</script>
 
 </body>
 </html>

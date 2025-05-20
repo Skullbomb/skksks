@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flower Gift</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffe4e1, #e0f7fa, #fce4ec);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      font-family: 'Comic Sans MS', 'Segoe UI', cursive;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .container {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .flower-box, .bouquet-box {
+      background: #fff0f5;
+      padding: 30px;
+      border-radius: 30px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      font-size: 1.5rem;
+      text-align: center;
+      color: #d63384;
+      min-width: 280px;
+      transition: transform 0.2s ease;
+    }
+
+    .flower-box {
+      cursor: pointer;
+    }
+
+    .flower-box:hover {
+      transform: scale(1.05);
+    }
+
+    .floating-flower {
+      position: absolute;
+      font-size: 2rem;
+      animation: floatUp 2s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {opacity: 1; transform: translateY(0);}
+      100% {opacity: 0; transform: translateY(-100px) rotate(360deg);}
+    }
+
+    .bouquet-box {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      white-space: pre-line;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="flower-box" onclick="giveFlowers()">
+      here are your flowers for today shawtyy
+    </div>
+
+    <div id="bouquet" class="bouquet-box"></div>
+  </div>
+
+  <script>
+    const flowers = ["🌸", "🌼", "🌺", "🌹", "🌻", "💐", "🪻", "🌷", "🪷"];
+    
+    function giveFlowers() {
+      // Floating flower animation
+      for (let i = 0; i < 10; i++) {
+        const flower = document.createElement('div');
+        flower.className = 'floating-flower';
+        flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+        flower.style.left = Math.random() * 100 + 'vw';
+        flower.style.top = Math.random() * 100 + 'vh';
+        document.body.appendChild(flower);
+        setTimeout(() => flower.remove(), 2000);
+      }
+
+      // Emoji bouquet shape
+      const bouquet = `
+         ${rand()} ${rand()} ${rand()}
+       ${rand()} ${rand()} ${rand()} ${rand()}
+         ${rand()} ${rand()} ${rand()}
+            💐
+      `;
+      const bouquetBox = document.getElementById('bouquet');
+      bouquetBox.innerText = bouquet;
+      bouquetBox.style.animation = "none"; // reset animation
+      bouquetBox.offsetHeight; // trigger reflow
+      bouquetBox.style.animation = null;  // restart animation
+    }
+
+    function rand() {
+      return flowers[Math.floor(Math.random() * flowers.length)];
+    }
+  </script>
+
+</body>
+</html>
